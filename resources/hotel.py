@@ -30,7 +30,7 @@ hoteis = [
     }
 ]
 #criando uma classe hoteis
-# Esta primeira classe leva em seus (), Resource porque vai ser um recurso da nossa Api
+# Esta primeira classe leva em seus (), Resource porque vai ser um recurso da Api
 # este recurso como todos os recursos devem, conter Get Post e Delete
 # e o Api que foi instanciado é quem vai fazer o gerenciamento de toda a aplicação
 class Hoteis(Resource):
@@ -38,3 +38,21 @@ class Hoteis(Resource):
         # aqui está sendo feito um dicionário,porém quando for feito a requisição, a biblioteca
         #flask_restful, vai retornar automaticamente nos retornar em formato json
         return {'hoteis': hoteis}
+
+#criando mais classe para o app, como está classe também vai ser um recurso ela ,herda da biblioteca restfull, c classe
+# Resource
+class Hotel(Resource):
+    def get(self, hotel_id):
+        for hotel in hoteis:
+            if hotel['hotel_id'] == hotel_id:
+                return hotel
+        return {'message': 'Hotel not found.'}, 404 # not found
+
+    def post(self, hotel_id):
+        pass
+
+    def put(self, hotel_id):
+        pass
+
+    def delete(self, hotel_id):
+        pass
