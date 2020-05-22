@@ -1,56 +1,19 @@
 #Fazendo o chamado da biblioteca flask e importando de dentro dela o "Flask"
 from flask import Flask
+# Agora chamando a pasta resources que nela esta o arquivo "hoteis" ,e fazemos a importação
+# da classe Hoteis, assim fazemos uma pequena fatoração ,para comparação do código anteriormente
+# sendo uma divisão em pacote. Desta maneira deixando o código mais organizado
+from resources.hotel import Hoteis
 
 #chamandoa biblioteca flask_restful e importando dela "Resource", e "Api"
-from flask_restful import Resource, Api
+from flask_restful import  Api
 
 #criando uma variavél por padrão "app", e vamos passar o flask para ela junto de (__name__)
 app = Flask(__name__)
 #criando agora uma variavél para api, para instanciar a "Api"
 api = Api(app)
 
-#criando uma lista de hoteis para ser usada em nossa aplicação Api
-#logo a meta é trazer está lista de um banco de  dados ,ao invés de formato json,como é
-# oque estou fazendo.
-hoteis = [
-    {
-        'hotel_id': 'alpha',
-        'nome': 'Alpha Hotel',
-        'estrela': 4.3,
-        'diaria': 420.34,
-        'cidade': 'Curitiba'
-    },
-
-    {
-        'hotel_id': 'charlie',
-        'nome': 'Charlie Hotel',
-        'estrela': 4.4,
-        'diaria': 380,
-        'cidade': 'Florianópolis'
-    },
-
-    {
-        'hotel_id': 'bravo',
-        'nome': 'Bravo Hotel',
-        'estrela': 4.0,
-        'diaria': 390,
-        'cidade': 'Porto Alegre'
-    }
-]
-#criando uma classe hoteis
-# Esta primeira classe leva em seus (), Resource porque vai ser um recurso da nossa Api
-# este recurso como todos os recursos devem, conter Get Post e Delete
-# e o Api que foi instanciado é quem vai fazer o gerenciamento de toda a aplicação
-class Hoteis(Resource):
-    def get(self):
-        # aqui está sendo feito um dicionário,porém quando for feito a requisição, a biblioteca
-        #flask_restful, vai retornar automaticamente nos retornar em formato json
-        return {'hoteis': hoteis}
-
-
-
 api.add_resource(Hoteis, '/hoteis')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
