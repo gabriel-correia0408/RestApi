@@ -49,14 +49,15 @@ class Hotel(Resource):
         return {'message': 'Hotel not found.'}, 404 # not found
 
     def post(self, hotel_id):
+        # nas linhas abaixo será criado um construtor
         argumentos = reqparse.RequestParser()
         argumentos.add_argument('nome')
         argumentos.add_argument('estrelas')
         argumentos.add_argument('diaria')
         argumentos.add_argument('cidade')
-
+        # a variavél dados vai ser ,estilo chave e valor que deverá ser passado, sendo um construtor
         dados = argumentos.parse_args()
-
+        #dados a serem recebidos
         novo_hotel = {
             'hotel_id': hotel_id,
             'nome': dados['nome'],
@@ -65,11 +66,11 @@ class Hotel(Resource):
             'cidade': dados['cidade']
 
         }
-
+        #agora adicionando o novo elemento na lista através do método de adiconar append assim adicionando o elemento
+        # "novo_hotel "
         hoteis.append(novo_hotel)
+        #retornando a variavél que contém os dados , e o código 200 que é codigo indicando sucesso
         return novo_hotel, 200
-
-        pass
 
     def put(self, hotel_id):
         pass
