@@ -1,4 +1,4 @@
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 
 #criando uma lista de hoteis para ser usada em nossa aplicação Api
@@ -49,6 +49,26 @@ class Hotel(Resource):
         return {'message': 'Hotel not found.'}, 404 # not found
 
     def post(self, hotel_id):
+        argumentos = reqparse.RequestParser()
+        argumentos.add_argument('nome')
+        argumentos.add_argument('estrelas')
+        argumentos.add_argument('diaria')
+        argumentos.add_argument('cidade')
+
+        dados = argumentos.parse_args()
+
+        novo_hotel = {
+            'hotel_id': hotel_id,
+            'nome': dados['nome'],
+            'estrelas': dados['estrelas'],
+            'diaria': dados['diaria'],
+            'cidade': dados['cidade']
+
+        }
+
+        hoteis.append(novo_hotel)
+        return novo_hotel, 200
+
         pass
 
     def put(self, hotel_id):
