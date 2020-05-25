@@ -42,11 +42,16 @@ class Hoteis(Resource):
 #criando mais classe para o app, como está classe também vai ser um recurso ela ,herda da biblioteca restfull, c classe
 # Resource
 class Hotel(Resource):
-    def get(self, hotel_id):
+    def encontrar_hotel(hotel_id):
         for hotel in hoteis:
             if hotel['hotel_id'] == hotel_id:
                 return hotel
-        return {'message': 'Hotel not found.'}, 404 # not found
+        return None
+    def get(self, hotel_id):
+        hotel = Hotel.encontrar_hotel(hotel_id)
+        if hotel:
+            return hotel
+        return {'message': 'Hotel not found.'}, 404 #not found
 
     def post(self, hotel_id):
         # nas linhas abaixo será criado um construtor
