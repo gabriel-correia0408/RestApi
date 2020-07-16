@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-
+from models.hotel import HotelModel
 # criando uma lista de hoteis para ser usada em nossa aplicação Api
 # logo a meta é trazer está lista de um banco de  dados ,ao invés de formato json,como é
 # oque estou fazendo.
@@ -29,7 +29,6 @@ hoteis = [
     }
 ]
 
-
 # criando uma classe hoteis
 # Esta primeira classe leva em seus (), Resource porque vai ser um recurso da Api
 # este recurso como todos os recursos devem, conter Get Post e Delete
@@ -46,7 +45,7 @@ class Hoteis(Resource):
 class Hotel(Resource):
     argumentos = reqparse.RequestParser()
     argumentos.add_argument('nome')
-    argumentos.add_argument('estrelas')
+    argumentos.add_argument('estrela')
     argumentos.add_argument('diaria')
     argumentos.add_argument('cidade')
 
@@ -63,22 +62,16 @@ class Hotel(Resource):
         return {'message': 'Hotel not found.'}, 404  # not found
 
     def post(self, hotel_id):
-
         dados = Hotel.argumentos.parse_args()
-
-        novo_hotel = {'hotel_id': hotel_id, **dados}
-
-        # agora adicionando o novo elemento na lista através do método de adiconar append assim adicionando o elemento
-        # "novo_hotel "
+        hotel_objto = HotelModel(hotel_id, **dados)
+        novo_hotel = hotel_objto.json()
         hoteis.append(novo_hotel)
-        # retornando a variavél que contém os dados , e o código 200 que é codigo indicando sucesso
         return novo_hotel, 200
 
     def put(self, hotel_id):
         dados = Hotel.argumentos.parse_args()
-
-        novo_hotel = {'hotel_id': hotel_id, **dados}
-
+        hotel_objto = HotelModel(hotel_id, **dados)
+        novo_hotel = hotel_objto.json()
         hotel = Hotel.encontrar_hotel(hotel_id)
         if hotel:
             hotel.update(novo_hotel)
